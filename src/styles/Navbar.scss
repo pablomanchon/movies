@@ -1,0 +1,39 @@
+.nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 8px;
+  width: 100%;
+  position: fixed;
+  z-index: 10;
+  top: 0;
+  background-color: rgba(0, 255, 255, 0.281);
+  backdrop-filter: blur(3px);
+  box-shadow: 0 0 15px white;
+  .options {
+    display: flex;
+    color: white;
+    list-style: none;
+    gap: 1rem;
+    font-size: 1.4rem;
+    li {
+      transition: 0.3s;
+      cursor: pointer;
+      &:hover {
+        text-shadow: 0 0 15px white;
+        scale: 1.1;
+      }
+    }
+  }
+  input {
+    width: 100%;
+    max-width: 20rem;
+    outline: none;
+    border-radius: 8px;
+    padding: 8px;
+    border: none;
+    box-shadow: 0 0 8px cyan;
+  }
+}
