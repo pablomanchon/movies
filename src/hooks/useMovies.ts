@@ -1,4 +1,4 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { api } from "../api/movies";
 import { Movie } from "../types";
 
@@ -20,4 +20,40 @@ export function useFetchMovies() {
       return lastPage.nextPage;
     },
   });
+}
+
+async function fetchGetById(id: string) {
+  const res = await api.get(`/titles/${id}`);
+  const movie: Movie = res.data.results;
+  movie.actors = await fetchGetActorsFromMovie(id);
+  return movie;
+}
+
+export function useFetchGetById(id: string) {
+  return useQuery({
+    queryKey: ["movie", id],
+    queryFn: async () => await fetchGetById(id),
+  });
+}
+
+async function fetchGetActorsFromMovie(id: string) {
+  const res = await api.get(`/titles/${id}`, {
+    params: {
+      info: "extendedCast",
+    },
+  });
+  return res.data.results.cast.edges;
+}
+
+export function useFetchGetActorById(id: string) {
+  return useQuery({
+    queryKey: ["actor", id],
+    queryFn: async () => await fetchGetActorById(id),
+  });
+}
+
+async function fetchGetActorById(id: string) {
+  const res = await api.get(`/actors/${id}`);
+  console.log(res.data);
+  return res.data;
 }
