@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useFetchGetById } from "../hooks/useMovies";
 import { FaStar } from "react-icons/fa6";
 import "../styles/MovieDetails.scss";
@@ -6,7 +6,6 @@ import { PropagateLoader } from "react-spinners";
 
 export const MovieDetails = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const { data: movie, isLoading, isError, error } = useFetchGetById(id || "");
   if (isLoading || movie?.id !== id)
     return (
