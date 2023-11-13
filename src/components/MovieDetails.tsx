@@ -39,24 +39,28 @@ export const MovieDetails = () => {
         <div>
           <h3 className='name'>{movie?.titleText.text}</h3>
           <p className='description'>{movie?.plot?.plotText.plainText}</p>
+          <div className='genres'>
+            {movie?.genres.genres.map((genre) => (
+              <span key={genre.id}>{genre.text}</span>
+            ))}
+          </div>
         </div>
       </section>
-
-      <h3 className='casting-title'>Casting</h3>
-      <section className='actors'>
-        {movie?.actors.map((actor) => (
-          <article key={actor.node.name.id} className='actor'>
-            <img
-              src={actor.node.name.primaryImage?.url}
-              alt={actor.node.name.nameText.text}
-            />
-            <span>
-              <p>{actor.node.characters[0].name}</p>
-              <p>({actor.node.name.nameText.text})</p>
-            </span>
-          </article>
-        ))}
-      </section>
+      {movie?.actors.length !== 0 ? (
+        <>
+          <h3 className='casting-title'>Casting</h3>
+          <section className='actors'>
+            {movie?.actors.map((actor) => (
+              <article key={actor.node.name.id} className='actor'>
+                <span>
+                  <p>{actor.node.characters[0].name}</p>
+                  <p>({actor.node.name.nameText.text})</p>
+                </span>
+              </article>
+            ))}
+          </section>
+        </>
+      ) : null}
     </div>
   );
 };

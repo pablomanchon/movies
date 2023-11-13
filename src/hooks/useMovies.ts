@@ -1,20 +1,30 @@
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import { api } from "../api/movies";
+import { api, searchApi } from "../api/movies";
 import { Movie } from "../types";
 
-async function fetchMovies({ pageParam = 1 }: { pageParam?: number }) {
+async function fetchMovies({
+  pageParam = 1,
+  typeOfMovie,
+}: {
+  pageParam?: number;
+  typeOfMovie: string | null;
+}) {
   const { data } = await api.get("/titles", {
-    params: { page: pageParam },
+    params: {
+      page: pageParam,
+      titleType: typeOfMovie,
+      list: typeOfMovie ? null : "most_pop_movies",
+    },
   });
   const nextPage = parseInt(data.page) + 1;
   const movies: Movie[] = data.results;
   return { movies, nextPage };
 }
 
-export function useFetchMovies() {
+export function useFetchMovies(typeOfMovie: string | null) {
   return useInfiniteQuery({
-    queryKey: ["movies"],
-    queryFn: fetchMovies,
+    queryKey: ["movies", typeOfMovie],
+    queryFn: ({ pageParam = 1 }) => fetchMovies({ pageParam, typeOfMovie }),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => {
       return lastPage.nextPage;
@@ -56,4 +66,32 @@ async function fetchGetActorById(id: string) {
   const res = await api.get(`/actors/${id}`);
   console.log(res.data);
   return res.data;
+}
+
+export function useFetchSearch(searchParam: string) {
+  return useInfiniteQuery({
+    queryKey: ["movies", "search"],
+    queryFn: ({ pageParam = 1 }) => fetchSearch({ pageParam, searchParam }),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => {
+      return lastPage.nextPage;
+    },
+  });
+}
+
+async function fetchSearch({
+  pageParam = 1,
+  searchParam,
+}: {
+  pageParam?: number;
+  searchParam: string | null;
+}) {
+  const { data } = await searchApi.get(`/${searchParam}`, {
+    params: {
+      page: pageParam,
+    },
+  });
+  const nextPage = parseInt(data.page) + 1;
+  const movies: Movie[] = data.results;
+  return { movies, nextPage };
 }

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Movie } from "../types";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { FaStar } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 
 interface props {
@@ -30,6 +31,13 @@ export const Card = ({ movie }: props) => {
           />
         )}
         <h3>{movie.originalTitleText.text}</h3>
+        <span className='type'>{movie.titleType.text}</span>
+        {movie.ratingsSummary.aggregateRating ? (
+          <span className='rating'>
+            {movie.ratingsSummary.aggregateRating}
+            <FaStar />
+          </span>
+        ) : null}
       </>
     </div>
   );

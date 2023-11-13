@@ -17,6 +17,7 @@
   padding: 1rem;
   background-color: black;
   .card {
+    position: relative;
     cursor: pointer;
     margin: auto;
     min-height: 23rem;
@@ -39,6 +40,26 @@
       width: 10rem;
       height: 17rem;
       border-radius: 8px;
+    }
+    .type {
+      color: black;
+      font-weight: 800;
+      position: absolute;
+      left: 0;
+      background-color: cyan;
+      padding: 5px;
+      border-radius: 8px;
+    }
+    .rating {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      top: 0;
+      right: 0;
+      color: yellow;
+      background-color: black;
+      border-radius: 8px;
+      padding: 5px;
     }
   }
   .btn-next {

@@ -1,14 +1,25 @@
 import { Card } from "./Card";
 import "../styles/Cards.scss";
-import { useFetchMovies } from "../hooks/useMovies";
 import { DotLoader } from "react-spinners";
+import { Movie } from "../types";
+import { InfiniteData, UseInfiniteQueryResult } from "@tanstack/react-query";
 
-export const Cards = () => {
-  const { data, error, isError, isLoading, fetchNextPage, isFetchingNextPage } =
-    useFetchMovies();
-  const movies = data?.pages?.flatMap((page) => page.movies) ?? [];
-  if (isLoading) return <span>Loading...</span>;
-  else if (isError) return <span>{error.message}</span>;
+interface props {
+  query: UseInfiniteQueryResult<
+    InfiniteData<
+      {
+        movies: Movie[];
+        nextPage: number;
+      },
+      unknown
+    >,
+    Error
+  >;
+}
+
+export const Cards = ({ query }: props) => {
+  const movies = query.data?.pages?.flatMap((page) => page.movies) ?? [];
+
   return (
     <section className='cards-movies'>
       <ul className='movies'>
@@ -16,8 +27,8 @@ export const Cards = () => {
           <Card key={movie.id} movie={movie} />
         ))}
       </ul>
-      <button className='btn-next' onClick={() => fetchNextPage()}>
-        {isFetchingNextPage ? (
+      <button className='btn-next' onClick={() => query.fetchNextPage()}>
+        {query.isFetchingNextPage ? (
           <DotLoader color='black' size={20} />
         ) : (
           "Cargar mas resultados"

@@ -17,6 +17,10 @@
       .description {
         max-width: 20rem;
       }
+      .genres {
+        display: flex;
+        flex-direction: row;
+      }
     }
     img {
       width: 100%;
@@ -73,10 +77,6 @@
       padding: 1rem;
       width: 100%;
       max-width: 25rem;
-      img {
-        border-radius: 8px;
-        max-width: 5rem;
-      }
       p {
         font-size: 1.3rem;
       }
